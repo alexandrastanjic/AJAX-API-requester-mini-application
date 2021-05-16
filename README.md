@@ -1,0 +1,1 @@
+# AJAX-API-requester-mini-application
