@@ -1,32 +1,46 @@
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>AJAX APIs</title>
   <style>
-
+    .dataOutput {
+      padding: 10px;
+      border: 1px solid #eeeeee;
+    }
   </style>
 </head>
+
 <body>
   <h1>AJAX Information API Application</h1>
+  <input type="text" name="searchTerm" value="JavaScript">
   <input type="button" id="search" value="search">
   <div id="output"></div>
 
   <script>
-    window.onload = function(){
+    window.onload = function () {
       document.getElementById('search').addEventListener('click', showResults)
     }
-    function showResults(){
-      let url = 'https://randomuser.me/api/';
-      ajaxJS(url, function(response){
-        console.log(response)
+    function showResults() {
+            var searchTerm = document.querySelector('input[name="searchTerm"]').value
+            var url = 'https://en.wikipedia.org/w/api.php?format=json&action=opensearch&origin=*&search=' + searchTerm;
+            let output = document.querySelector('#output');
+            output.innerHTML = "<h2>Search Term" + searchTerm; "</h2>"; 
+            ajaxJS(url, function (response) {
+                console.log(response)
+                for (var x in response) {
+                    var holder = typeof response[x] == 'string' ? response[x] : response[x][0];
+                    output.innerHTML += '<div class = "dataOutput">' + holder + '</div>'
+                
+        }
       })
     }
 
-    function ajaxJS (url, callback) {
+    function ajaxJS(url, callback) {
       let xhr = new XMLHttpRequest();
-      xhr.onreadystatechange = function(){
-        if(xhr.readyState == 4 && xhr.status == 200) {
+      xhr.onreadystatechange = function () {
+        if (xhr.readyState == 4 && xhr.status == 200) {
           callback(JSON.parse(xhr.responseText))
         }
       }
@@ -35,6 +49,7 @@
     }
 
   </script>
-  
+
 </body>
+
 </html>
